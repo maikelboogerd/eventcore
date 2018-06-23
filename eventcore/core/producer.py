@@ -9,7 +9,9 @@ class Producer(object):
 
     def __init__(self, queue):
         self._queue = queue
-        Registry.register_producer(self)
+        # Add the first producer as the default one to the registry.
+        if not Registry.get_producer():
+            Registry.register_producer(self)
 
     def produce(self, topic, event, subject, data):
         """
