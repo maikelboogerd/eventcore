@@ -53,10 +53,10 @@ from eventcore import dispatch_event
 from project.events import UserCreated, UserUpdated
 
 class UserService(object):
+    # Each time this method is called, the `UserCreated` event is created
+    # and dispatched using the resource this method returns as context.
     @dispatch_event(UserCreated)
     def create(self):
-        # Each time this method is called, the `UserCreated` event is created
-        # and dispatched using the resource this method returns as context.
         return User()
 
     def update(self):
@@ -64,7 +64,7 @@ class UserService(object):
         # decorator does under the hood as well.
         UserUpdated('USER_ID', {}).dispatch()
 
-        # You can pass a different Producer to dispatch this event to a
-        # different queue instead.
+        # You can pass a different Producer to dispatch this event to another
+        # queue instead.
         UserUpdated('USER_ID', {}).dispatch(Producer(SQSQueue()))
 ```
