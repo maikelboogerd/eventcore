@@ -25,7 +25,7 @@ queue = DummyQueue()
 # to dispatch on.
 producer = Producer(queue)
 
-#
+# Start consuming and processing the queue.
 consumer = Consumer(queue)
 consumer.thread()
 ```
