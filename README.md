@@ -14,7 +14,7 @@ $ pip install eventcore
 
 - Create a producer and consumer for a specific queue:
 
-```
+```python
 from eventcore.queues import DummyQueue
 
 queue = DummyQueue()
@@ -39,7 +39,7 @@ def send_activation(event):
 
 - Dispatch events from your project:
 
-```
+```python
 from eventcore import dispatch_event
 from project.events import UserCreated
 
