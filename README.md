@@ -53,10 +53,13 @@ from eventcore import dispatch_event
 from project.events import UserCreated, UserUpdated
 
 class UserService(object):
-    # Each time this method is called, the `UserCreated` event is created
-    # and dispatched using the resource this method returns as context.
     @dispatch_event(UserCreated)
     def create(self):
+        # Each time this method is called, the `UserCreated` event is created
+        # and dispatched using the resource this method returns as context.
+
+        # The returned object must have an `id` property, which is used as
+        # subject for this event.
         return User()
 
     def update(self):
