@@ -38,8 +38,8 @@ def send_activation(event):
 ```
 
 Dispatching events can be done in two ways, providing some flexibility:
-- Using the `dispatch_event` decorator an event is dispatched when the method is called, using the resource it returns as context.
-- Alternatively you can dispatch events yourself by instantiating the event with a subject and dictionary. Call `.dispatch()` on it to persist it to a queue.
+- When using the `dispatch_event` decorator, the event is dispatched when the method is called.
+- Alternatively you can dispatch events yourself by instantiating the event and calling `.dispatch()` on it.
 
 ```python
 from eventcore import dispatch_event
