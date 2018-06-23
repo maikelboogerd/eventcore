@@ -1,4 +1,4 @@
-from eventbus import Queue, Message
+from eventcore import Queue, Message
 
 
 class KafkaQueue(Queue):

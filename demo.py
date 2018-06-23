@@ -1,11 +1,11 @@
 import logging
 
-from eventbus import (Consumer,
-                      Producer,
-                      Event,
-                      event_subscriber,
-                      dispatch_event)
-from eventbus.queues import DummyQueue
+from eventcore import (Consumer,
+                       Producer,
+                       Event,
+                       event_subscriber,
+                       dispatch_event)
+from eventcore.queues import DummyQueue
 
 log = logging.getLogger(__name__)
 

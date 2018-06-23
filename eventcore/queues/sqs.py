@@ -2,7 +2,7 @@ import json
 import uuid
 import boto3
 
-from eventbus import Queue, Message
+from eventcore import Queue, Message
 
 
 class SQSQueue(Queue):
