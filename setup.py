@@ -10,7 +10,7 @@ setuptools.setup(
     url='https://github.com/maikelboogerd/python-eventcore',
     keywords=['event', 'queue', 'producer', 'consumer'],
     packages=['eventcore'],
-    install_requires=['transaction', 'boto3'],
+    install_requires=['transaction', 'boto3', 'kafka-python'],
     license='MIT',
     zip_safe=False,
 )
