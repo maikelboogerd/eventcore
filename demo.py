@@ -1,4 +1,5 @@
 import logging
+import transaction
 
 from eventcore import (Consumer,
                        Producer,
@@ -41,7 +42,8 @@ class SomeService(object):
 if __name__ == '__main__':
     queue = DummyQueue()
     producer = Producer(queue) # noqa
-    consumer = Consumer(queue)
+    consumer = Consumer(queue, transaction.manager)
+    consumer.thread()
     # UserCreated('123', {}).dispatch()
     # UserCreated('123', {}).dispatch()
     # UserCreated('123', {}).dispatch()
@@ -51,3 +53,9 @@ if __name__ == '__main__':
     print(user)
     UserCreated('123', {}).dispatch()
     # consumer.consume()
+
+
+def lambda_handler(event, context):
+    queue = DummyQueue()
+    consumer = Consumer(queue)
+    consumer.consume()
