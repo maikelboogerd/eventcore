@@ -1,7 +1,8 @@
 import time
-import transaction
 import threading
 import logging
+
+from contextlib import suppress
 
 from .registry import Registry
 
@@ -15,8 +16,9 @@ class Consumer(object):
     """
     _interval = 5
 
-    def __init__(self, queue):
+    def __init__(self, queue, context_manager=None):
         self._queue = queue
+        self._context_manager = (context_manager or suppress())
 
     def process_queue(self):
         """
@@ -27,7 +29,7 @@ class Consumer(object):
                 # Wrap a transaction manager around the message processing
                 # so each message has it's own session. Upon completing the
                 # message processing everything is persisted to the database.
-                with transaction.manager:
+                with self._context_manager:
                     self.process_message(message)
             except:
                 # Log the exception on error level, but continue processing

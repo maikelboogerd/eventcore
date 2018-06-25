@@ -1,5 +1,6 @@
 import abc
 
+from .exceptions import NoProducerError
 from .registry import Registry
 
 
@@ -21,8 +22,7 @@ class Event(metaclass=abc.ABCMeta): # noqa
         Dispatch the event, sending a message to the queue using a producer.
         :param producer: optional `Producer` to replace the default one.
         """
-        default_producer = Registry.get_producer()
-        (producer or default_producer).produce(self.topic,
-                                               self.name,
-                                               self.subject,
-                                               self.data)
+        producer = (producer or Registry.get_producer())
+        if not producer:
+            raise NoProducerError('You have not configured a Producer')
+        producer.produce(self.topic, self.name, self.subject, self.data)
