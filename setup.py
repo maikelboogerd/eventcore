@@ -3,14 +3,14 @@ import setuptools
 
 setuptools.setup(
     name='eventcore',
-    version='0.0.3',
+    version='0.0.6',
     description='Produce and consume events with any queue.',
     author='Maikel van den Boogerd',
     author_email='maikelboogerd@gmail.com',
     url='https://github.com/maikelboogerd/python-eventcore',
     keywords=['event', 'queue', 'producer', 'consumer'],
-    packages=['eventcore'],
-    install_requires=['transaction', 'boto3', 'kafka-python'],
+    packages=['eventcore', 'eventcore.core', 'eventcore.queues'],
+    install_requires=['boto3', 'kafka-python'],
     license='MIT',
-    zip_safe=False,
+    zip_safe=False
 )
