@@ -7,14 +7,14 @@ from eventcore import Queue, Message
 
 class SQSQueue(Queue):
     def __init__(self,
+                 region_name,
                  access_key_id,
                  secret_access_key,
-                 region_name,
                  url):
         sqs = boto3.resource('sqs',
+                             region_name=region_name,
                              aws_access_key_id=access_key_id,
-                             aws_secret_access_key=secret_access_key,
-                             region_name=region_name)
+                             aws_secret_access_key=secret_access_key)
         self._queue = sqs.Queue(url)
 
     def read(self, topic=None):
