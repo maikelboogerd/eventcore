@@ -13,7 +13,6 @@ class KafkaQueue(Queue):
 
     def read(self, topic=None):
         self.kafka_consumer.subscribe(topic)
-        pass
 
     def enqueue(self, message):
         message_body = {
