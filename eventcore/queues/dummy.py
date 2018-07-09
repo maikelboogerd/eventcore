@@ -4,7 +4,7 @@ from eventcore import Queue, Message
 class DummyQueue(Queue):
     _queue = []
 
-    def read(self, topic=None):
+    def read(self, topics=None):
         for message in self._queue:
             yield message
 

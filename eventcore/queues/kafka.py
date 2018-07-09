@@ -2,7 +2,7 @@ from eventcore import Queue, Message
 
 
 class KafkaQueue(Queue):
-    def read(self, topic=None):
+    def read(self, topics=None):
         pass
 
     def enqueue(self, message):

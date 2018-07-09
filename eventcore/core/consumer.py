@@ -13,18 +13,21 @@ class Consumer(object):
     """
     Consume messages from a queue.
     :param queue: the `Queue` instance to read messages from.
+    :param topics: TODO
+    :param context_manager: TODO
     """
     _interval = 5
 
-    def __init__(self, queue, context_manager=None):
+    def __init__(self, queue, topics=[], context_manager=None):
         self._queue = queue
+        self._topics = topics
         self._context_manager = (context_manager or suppress())
 
     def process_queue(self):
         """
         Read and process messages from the queue.
         """
-        for message in self._queue.read():
+        for message in self._queue.read(topics=self._topics):
             try:
                 # Wrap a transaction manager around the message processing
                 # so each message has it's own session. Upon completing the

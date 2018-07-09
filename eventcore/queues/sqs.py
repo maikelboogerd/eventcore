@@ -17,7 +17,7 @@ class SQSQueue(Queue):
                              aws_secret_access_key=secret_access_key)
         self._queue = sqs.Queue(url)
 
-    def read(self, topic=None):
+    def read(self, topics=None):
         for resource in self._queue.receive_messages(MaxNumberOfMessages=10):
             message_body = json.loads(resource.body)
             message = self.prepare(topic=None,
