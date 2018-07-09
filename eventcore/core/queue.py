@@ -7,10 +7,11 @@ class Queue(metaclass=abc.ABCMeta): # noqa
     """
 
     @abc.abstractmethod
-    def read(self, topic=None):
+    def read(self, topics=None):
         """
         Read messages from the queue.
         :param topic: the topic to read messages from.
+        :param consumer_id: TODO
         :return messages: list of `Message` instances.
         """
         pass
