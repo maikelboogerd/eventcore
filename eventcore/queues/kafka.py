@@ -7,12 +7,17 @@ from confluent_kafka import Producer, Consumer
 class KafkaQueue(Queue):
     def __init__(self, server, group_id=None):
         self.kafka_producer = Producer({'bootstrap.servers': server})
+        self.kafka_consumer = None
         if group_id:
-            self.kafka_consumer = Consumer({'bootstrap.servers': server,
-                                            'group.id': group_id})
+            self.kafka_consumer = Consumer({
+                'bootstrap.servers': server,
+                'group.id': group_id
+            })
 
-    def read(self, topic=None):
-        self.kafka_consumer.subscribe(topic)
+    def read(self, topics=None):
+        if not self.kafka_consumer:
+            return
+        self.kafka_consumer.subscribe(topics)
 
     def enqueue(self, message):
         message_body = {
@@ -25,7 +30,7 @@ class KafkaQueue(Queue):
         self.kafka_producer.flush()
 
     def dequeue(self, message):
-        """ Not available in Kafka """
+        # Not available in Kafka
         pass
 
     def prepare(self, topic, event, subject, data):
