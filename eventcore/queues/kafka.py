@@ -16,20 +16,19 @@ class KafkaQueue(Queue):
 
     def read(self, topics=None):
         if not self.kafka_consumer:
-            // TODO: Raise NoKafkaConsumer exception
+            # TODO: Raise NoKafkaConsumer exception
             return
         self.kafka_consumer.subscribe(topics)
-        while True:
-            msg = self.kafka_consumer.poll(1.0)
-            if msg is None:
-                continue
-            if msg.error():
-                break
-            message_body = message.value()
-            message = self.prepare(topic=topics,
-                                   event=message_body.get('event'),
-                                   data=message_body.get('data')
-            yield message
+        msg = self.kafka_consumer.poll(10.0)
+        if msg is None:
+            continue
+        if msg.error():
+            break
+        message_body = msg.value()
+        message = self.prepare(topic=topics,
+                               event=message_body.get('event'),
+                               data=message_body.get('data'))
+        yield message
 
     def enqueue(self, message):
         message_body = {
