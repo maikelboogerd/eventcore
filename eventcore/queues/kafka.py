@@ -16,6 +16,7 @@ class KafkaQueue(Queue):
 
     def read(self, topics=None):
         if not self.kafka_consumer:
+            // TODO: Raise NoKafkaConsumer exception
             return
         self.kafka_consumer.subscribe(topics)
         while True:
