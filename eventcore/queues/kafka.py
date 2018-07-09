@@ -7,7 +7,6 @@ from confluent_kafka import Producer, Consumer
 class KafkaQueue(Queue):
     def __init__(self, server, group_id=None):
         self.kafka_producer = Producer({'bootstrap.servers': server})
-        self.kafka_consumer = None
         if group_id:
             self.kafka_consumer = Consumer({
                 'bootstrap.servers': server,
@@ -15,9 +14,16 @@ class KafkaQueue(Queue):
             })
 
     def read(self, topics=None):
-        if not self.kafka_consumer:
-            return
         self.kafka_consumer.subscribe(topics)
+        for resource in self.kafka_consumer.consume(10, 1):
+            if not resource:
+                continue
+            message_body = json.loads(resource.value())
+            message = self.prepare(topic=resource.topic(),
+                                   event=message_body.get('event'),
+                                   subject=resource.key(),
+                                   data=message_body.get('data'))
+            yield message
 
     def enqueue(self, message):
         message_body = {
@@ -38,4 +44,4 @@ class KafkaQueue(Queue):
 
 
 class KafkaMessage(Message):
-    message_id = None
+    pass
