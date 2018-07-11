@@ -11,16 +11,16 @@ def event_subscriber(event):
     return wrapper
 
 
-def dispatch_event(event):
+def dispatch_event(event, subject='id', serializer=None):
     """
     Dispatch an event when the decorated method is called.
     :param event: the event class to instantiate and dispatch.
+    :param subject_property: the property name to get the subject.
     """
     def wrapper(method):
         def inner_wrapper(*args, **kwargs):
             resource = method(*args, **kwargs)
-            subject = getattr(resource, 'id')
-            event(subject, {}).dispatch()
+            event(getattr(resource, subject), {}).dispatch()
             return resource
         return inner_wrapper
     return wrapper
