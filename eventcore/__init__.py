@@ -5,20 +5,20 @@ from .decorators import event_subscriber, dispatch_event # noqa
 
 
 class DummyQueue(object):
-    _queue = []
+    _messages = []
 
     @classmethod
     def add(cls, message):
-        cls._queue.append(message)
+        cls._messages.append(message)
 
     @classmethod
     def read(cls):
-        for message in cls._queue:
+        for message in cls._messages:
             yield message
 
     @classmethod
     def remove(cls, message):
-        cls._queue.remove(message)
+        cls._messages.remove(message)
 
 
 class DummyMessage(object):
@@ -44,6 +44,6 @@ class DummyConsumer(Consumer):
 
 def includeme(config):
     producer = DummyProducer()
-    producer.set_default()
+    producer.make_default()
     consumer = DummyConsumer()
     consumer.consume()

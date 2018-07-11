@@ -13,5 +13,5 @@ class Producer(metaclass=abc.ABCMeta): # noqa
         """
         pass
 
-    def set_default(self):
+    def make_default(self):
         Registry.register_producer(self)
