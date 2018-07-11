@@ -1,6 +1,6 @@
 import abc
 
-from .exceptions import NoProducerError
+from .exceptions import MissingProducerError
 from .registry import Registry
 
 
@@ -24,5 +24,5 @@ class Event(metaclass=abc.ABCMeta): # noqa
         """
         producer = (producer or Registry.get_producer())
         if not producer:
-            raise NoProducerError('You have not configured a Producer')
+            raise MissingProducerError('You have not registered a Producer')
         producer.produce(self.topic, self.name, self.subject, self.data)

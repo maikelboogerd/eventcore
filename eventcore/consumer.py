@@ -29,12 +29,9 @@ class Consumer(metaclass=abc.ABCMeta): # noqa
         :param data:
         """
         with self._context_manager:
-            # Find the event and methods in the `Registry`.
             event, methods = Registry.get_event(name)
-            # Return when the registry cannot find a match.
             if not (event and methods):
                 return
-            # Execute each registered method for this event.
             event_instance = event(subject, data)
             for method in methods:
                 method(event_instance)

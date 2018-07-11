@@ -5,7 +5,7 @@ class ProducerError(Exception):
     pass
 
 
-class NoProducerError(ProducerError):
+class MissingProducerError(ProducerError):
     """
     Exception is thrown when trying to dispatch without a producer.
     """
