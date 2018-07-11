@@ -9,12 +9,25 @@ class Consumer(metaclass=abc.ABCMeta): # noqa
 
     @abc.abstractmethod
     def consume(self):
+        """
+        Consume from a queue.
+        """
         pass
 
     def set_context_manager(self, context_manager):
+        """
+        Add a context manager to wrap event processing.
+        :param context_manager: the context manager to use.
+        """
         self._context_manager = context_manager
 
     def process_event(self, name, subject, data):
+        """
+        Process a single event.
+        :param name:
+        :param subject:
+        :param data:
+        """
         with self._context_manager:
             # Find the event and methods in the `Registry`.
             event, methods = Registry.get_event(name)
@@ -27,4 +40,7 @@ class Consumer(metaclass=abc.ABCMeta): # noqa
                 method(event_instance)
 
     def thread(self):
+        """
+        Start a thread for this consumer.
+        """
         pass

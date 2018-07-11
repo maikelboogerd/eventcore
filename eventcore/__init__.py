@@ -44,6 +44,6 @@ class DummyConsumer(Consumer):
 
 def includeme(config):
     producer = DummyProducer()
-    producer.make_default()
+    producer.register()
     consumer = DummyConsumer()
     consumer.consume()

@@ -13,5 +13,8 @@ class Producer(metaclass=abc.ABCMeta): # noqa
         """
         pass
 
-    def make_default(self):
+    def register(self):
+        """
+        Add this producer to the `Registry` as default producer.
+        """
         Registry.register_producer(self)
