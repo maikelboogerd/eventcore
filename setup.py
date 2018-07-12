@@ -7,7 +7,7 @@ setuptools.setup(
     description='Produce and consume events with any queue.',
     author='Maikel van den Boogerd',
     author_email='maikelboogerd@gmail.com',
-    url='https://github.com/maikelboogerd/eventcore',
+    url='https://github.com/maikelboogerd/python-eventcore',
     keywords=['event', 'queue', 'producer', 'consumer', 'dispatch'],
     packages=['eventcore'],
     install_requires=[],
