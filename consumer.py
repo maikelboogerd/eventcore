@@ -2,7 +2,7 @@ import json
 
 import confluent_kafka as kafka
 
-from eventcore.producer import Consumer
+from eventcore import Consumer
 
 
 class KafkaConsumer(Consumer):
@@ -28,6 +28,6 @@ class KafkaConsumer(Consumer):
             if message.errors():
                 continue
             message_body = json.loads(message.value())
-            self.process_event(event=message_body.get('event'),
+            self.process_event(name=message_body.get('event'),
                                subject=message.key(),
                                data=message_body.get('data'))
