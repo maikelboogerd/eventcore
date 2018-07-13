@@ -7,10 +7,10 @@ setuptools.setup(
     description='Produce and consume events with any queue.',
     author='Maikel van den Boogerd',
     author_email='maikelboogerd@gmail.com',
-    url='https://github.com/maikelboogerd/python-eventcore',
-    keywords=['event', 'queue', 'producer', 'consumer'],
-    packages=['eventcore', 'eventcore.core', 'eventcore.queues'],
-    install_requires=['boto3', 'confluent-kafka'],
+    url='https://github.com/maikelboogerd/eventcore',
+    keywords=['event', 'queue', 'producer', 'consumer', 'dispatch'],
+    packages=['eventcore'],
+    install_requires=[],
     license='MIT',
     zip_safe=False
 )
