@@ -37,9 +37,12 @@ class DummyProducer(Producer):
 
 class DummyConsumer(Consumer):
     def consume(self):
-        for message in DummyQueue.read():
-            self.process_event(message.event, message.subject, message.data)
-            DummyQueue.remove(message)
+        while True:
+            for message in DummyQueue.read():
+                self.process_event(name=message.event,
+                                   subject=message.subject,
+                                   data=message.data)
+                DummyQueue.remove(message)
 
 
 def includeme(config):
