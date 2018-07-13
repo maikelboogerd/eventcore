@@ -1,12 +1,12 @@
 import json
 import confluent_kafka as kafka
 
-from eventcore.consumer import Consumer
+from eventcore import Consumer
 
 
 class KafkaConsumer(Consumer):
     """
-    Produce to a Kafka queue.
+    Consume from a Kafka queue.
     :param servers: list of brokers to consume from.
     :param group_id: identifier for this consumer.
     :param topics: list of topics to consume from.
