@@ -14,13 +14,6 @@ class Consumer(metaclass=abc.ABCMeta): # noqa
         """
         pass
 
-    def set_context_manager(self, context_manager):
-        """
-        Add a context manager to wrap event processing.
-        :param context_manager: the context manager to use.
-        """
-        self._context_manager = context_manager
-
     def process_event(self, name, subject, data):
         """
         Process a single event.
@@ -28,13 +21,12 @@ class Consumer(metaclass=abc.ABCMeta): # noqa
         :param subject:
         :param data:
         """
-        with self._context_manager:
-            event, methods = Registry.get_event(name)
-            if not (event and methods):
-                return
-            event_instance = event(subject, data)
-            for method in methods:
-                method(event_instance)
+        event, methods = Registry.get_event(name)
+        if not (event and methods):
+            return
+        event_instance = event(subject, data)
+        for method in methods:
+            method(event_instance)
 
     def thread(self):
         """
