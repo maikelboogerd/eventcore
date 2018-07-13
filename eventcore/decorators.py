@@ -11,7 +11,7 @@ def event_subscriber(event):
     return wrapper
 
 
-def dispatch_event(event, subject='id', serializer=None):
+def dispatch_event(event, subject='id'):
     """
     Dispatch an event when the decorated method is called.
     :param event: the event class to instantiate and dispatch.
