@@ -1,8 +1,7 @@
 import json
-
 import confluent_kafka as kafka
 
-from eventcore.producer import Consumer
+from eventcore.consumer import Consumer
 
 
 class KafkaConsumer(Consumer):
@@ -22,12 +21,12 @@ class KafkaConsumer(Consumer):
 
     def consume(self):
         while True:
-            message = self.kafka_consumer.poll()
+            message = self.kafka_consumer.poll(1.0)
             if not message:
                 continue
             if message.errors():
                 continue
             message_body = json.loads(message.value())
-            self.process_event(event=message_body.get('event'),
+            self.process_event(name=message_body.get('event'),
                                subject=message.key(),
                                data=message_body.get('data'))

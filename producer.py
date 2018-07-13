@@ -1,3 +1,4 @@
+import json
 import confluent_kafka as kafka
 
 from eventcore import Producer
@@ -15,4 +16,10 @@ class KafkaProducer(Producer):
         })
 
     def produce(self, topic, event, subject, data):
-        pass
+        message_body = {
+            'event': event,
+            'data': data
+        }
+        self.kafka_producer.produce(topic=topic,
+                                    key=subject,
+                                    value=json.dumps(message_body))
