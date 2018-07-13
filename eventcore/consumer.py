@@ -1,6 +1,9 @@
 import abc
+import threading
 
 from contextlib import suppress
+
+from .registry import Registry
 
 
 class Consumer(metaclass=abc.ABCMeta): # noqa
@@ -34,4 +37,6 @@ class Consumer(metaclass=abc.ABCMeta): # noqa
         """
         Start a thread for this consumer.
         """
-        pass
+        thread = threading.Thread(target=self.consume, args=())
+        thread.daemon = True
+        thread.start()
