@@ -25,4 +25,9 @@ class Event(metaclass=abc.ABCMeta): # noqa
         producer = (producer or Registry.get_producer())
         if not producer:
             raise MissingProducerError('You have not registered a Producer')
-        producer.produce(self.topic, self.name, self.subject, self.data)
+        try:
+            producer.produce(self.topic, self.name, self.subject, self.data)
+        except:
+            fallback = Registry.get_fallback()
+            fallback(self)
+            raise

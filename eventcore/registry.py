@@ -4,6 +4,7 @@ class Registry(object):
     """
     _events = {}
     _producer = None
+    _fallback = None
 
     @classmethod
     def register_event(cls, event_name, event, method):
@@ -26,6 +27,12 @@ class Registry(object):
         cls._producer = (cls._producer or producer)
 
     @classmethod
+    def register_fallback(cls, method):
+        """
+        """
+        cls._fallback = method
+
+    @classmethod
     def get_event(cls, event_name):
         """
         Find the event class and registered methods.
@@ -39,3 +46,9 @@ class Registry(object):
         Get the default producer.
         """
         return cls._producer
+
+    @classmethod
+    def get_fallback(cls):
+        """
+        """
+        return cls._fallback or (lambda x: x)

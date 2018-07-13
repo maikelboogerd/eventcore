@@ -20,3 +20,8 @@ class Producer(metaclass=abc.ABCMeta): # noqa
         Add this producer to the `Registry` as default producer.
         """
         Registry.register_producer(self)
+
+    def set_fallback(self, method):
+        """
+        """
+        Registry.register_fallback(method)
