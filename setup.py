@@ -3,7 +3,7 @@ import setuptools
 
 setuptools.setup(
     name='eventcore',
-    version='0.1.0',
+    version='0.2.0',
     description='Produce and consume events with any queue.',
     author='Maikel van den Boogerd',
     author_email='maikelboogerd@gmail.com',
