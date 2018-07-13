@@ -37,6 +37,16 @@ class Consumer(metaclass=abc.ABCMeta): # noqa
         """
         Start a thread for this consumer.
         """
-        thread = threading.Thread(target=self.consume, args=())
+        thread = threading.Thread(target=thread_wrapper(self.consume), args=())
         thread.daemon = True
         thread.start()
+
+
+def thread_wrapper(method):
+    def wrapper():
+        while True:
+            try:
+                method()
+            except BaseException as e:
+                continue
+    return wrapper
