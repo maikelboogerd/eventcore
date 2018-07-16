@@ -1,9 +1,12 @@
 import time
+import logging
 
 from .event import Event # noqa
 from .producer import Producer # noqa
 from .consumer import Consumer # noqa
 from .decorators import event_subscriber, dispatch_event # noqa
+
+log = logging.getLogger(__name__)
 
 
 class DummyQueue(object):
@@ -42,10 +45,15 @@ class DummyConsumer(Consumer):
         while True:
             time.sleep(10)
             for message in DummyQueue.read():
-                self.process_event(name=message.event,
-                                   subject=message.subject,
-                                   data=message.data)
-                DummyQueue.remove(message)
+                try:
+                    self.process_event(name=message.event,
+                                       subject=message.subject,
+                                       data=message.data)
+                    DummyQueue.remove(message)
+                except:
+                    log.error('@DummyConsumer.consume Exception:',
+                              exc_info=True)
+                    continue
 
 
 def includeme(config):
