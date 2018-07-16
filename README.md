@@ -90,7 +90,7 @@ consumer.thread()
 Usage with SQS:
 
 ```
-$ pip install eventcore-kafka
+$ pip install eventcore-sqs
 ```
 
 ```python
