@@ -35,8 +35,11 @@ class Consumer(metaclass=abc.ABCMeta): # noqa
                         .format(self.__class__.__name__, name))
             return
         event_instance = event(subject, data)
-        log.info('@{}.process_event `{}` for subject `{}`'
-                 .format(self.__class__.__name__, event, subject))
+        log.info('@{}.process_event `{}` for subject `{}`'.format(
+            self.__class__.__name__,
+            event_instance.__class__.__name__,
+            subject
+        ))
         for method in methods:
             log.info('>> Calling subscriber `{}`'.format(method.__name__))
             method(event_instance)
@@ -57,7 +60,7 @@ def thread_wrapper(method):
             try:
                 method()
             except BaseException as e:
-                log.error('@thread_wrapper restarting thread after exception:',
+                log.error('@thread_wrapper restarting thread after Exception:',
                           exc_info=True)
                 continue
     return wrapper
