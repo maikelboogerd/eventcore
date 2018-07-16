@@ -1,3 +1,5 @@
+import time
+
 from .event import Event # noqa
 from .producer import Producer # noqa
 from .consumer import Consumer # noqa
@@ -38,6 +40,7 @@ class DummyProducer(Producer):
 class DummyConsumer(Consumer):
     def consume(self):
         while True:
+            time.sleep(10)
             for message in DummyQueue.read():
                 self.process_event(name=message.event,
                                    subject=message.subject,
