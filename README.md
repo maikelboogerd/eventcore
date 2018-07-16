@@ -104,7 +104,7 @@ producer.register()
 ```
 
 ```python
-from eventcore_sqs import SQSProducer
+from eventcore_sqs import SQSConsumer
 
 consumer = SQSConsumer(region_name='eu-west-1',
                        access_key_id='ACCESS_KEY_ID',
