@@ -67,6 +67,8 @@ consumer.thread()
 
 Usage with Kafka:
 
+> Installing this library will also install `confluent-kafka`
+
 ```
 $ pip install eventcore-kafka
 ```
@@ -92,6 +94,8 @@ Usage with SQS:
 ```
 $ pip install eventcore-sqs
 ```
+
+> Installing this library will also install `boto3`
 
 ```python
 from eventcore_sqs import SQSProducer
