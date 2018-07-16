@@ -14,7 +14,7 @@ This only includes a (local) dummy queue, which can be used for testing or devel
 
 ## Usage
 
-Produce events:
+### Produce events:
 
 ```python
 from eventcore import Event, DummyProducer, dispatch_event
@@ -43,7 +43,7 @@ def create_user(params):
     return user
 ```
 
-Consume events:
+### Consume events:
 
 ```python
 from eventcore import Event, DummyConsumer, event_subscriber
@@ -65,7 +65,7 @@ consumer = DummyConsumer()
 consumer.thread()
 ```
 
-Usage with Kafka:
+### Usage with Kafka:
 
 > Installing this library will also install `confluent-kafka`
 
@@ -89,7 +89,7 @@ consumer = KafkaConsumer(servers='localhost:9092',
 consumer.thread()
 ```
 
-Usage with SQS:
+### Usage with SQS:
 
 ```
 $ pip install eventcore-sqs
