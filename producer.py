@@ -10,9 +10,9 @@ class KafkaProducer(Producer):
     :param servers: list of brokers to consume from.
     """
 
-    def __init__(self, server):
+    def __init__(self, servers):
         self.kafka_producer = kafka.Producer({
-            'bootstrap.servers': server
+            'bootstrap.servers': servers
         })
 
     def produce(self, topic, event, subject, data):
