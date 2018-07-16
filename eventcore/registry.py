@@ -1,3 +1,8 @@
+import logging
+
+log = logging.getLogger(__name__)
+
+
 class Registry(object):
     """
     A simple registry to save classes and objects on.
@@ -14,6 +19,8 @@ class Registry(object):
         :param event: class of the event.
         :param method: a method used to process this event.
         """
+        log.info('@Registry.register_event `{}` with subscriber `{}`'
+                 .format(event_name, method.__name__))
         if event_name not in cls._events:
             cls._events[event_name] = (event, [])
         cls._events[event_name][1].append(method)
@@ -24,12 +31,15 @@ class Registry(object):
         Register a default producer for events to use.
         :param producer: the default producer to to dispatch events on.
         """
+        log.info('@Registry.register_producer `{}`'
+                 .format(producer.__class__.__name__))
         cls._producer = (cls._producer or producer)
 
     @classmethod
     def register_fallback(cls, method):
         """
         """
+        log.info('@Registry.register_fallback `{}`'.format(method.__name__))
         cls._fallback = method
 
     @classmethod

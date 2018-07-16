@@ -1,7 +1,10 @@
 import abc
+import logging
 
 from .exceptions import MissingProducerError
 from .registry import Registry
+
+log = logging.getLogger(__name__)
 
 
 class Event(metaclass=abc.ABCMeta): # noqa
@@ -22,6 +25,8 @@ class Event(metaclass=abc.ABCMeta): # noqa
         Dispatch the event, sending a message to the queue using a producer.
         :param producer: optional `Producer` to replace the default one.
         """
+        log.info('@Event.dispatch `{}` with subject `{}`'
+                 .format(self.name, self.subject))
         producer = (producer or Registry.get_producer())
         if not producer:
             raise MissingProducerError('You have not registered a Producer')

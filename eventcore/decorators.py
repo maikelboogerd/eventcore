@@ -1,4 +1,8 @@
+import logging
+
 from .registry import Registry
+
+log = logging.getLogger(__name__)
 
 
 def event_subscriber(event):
