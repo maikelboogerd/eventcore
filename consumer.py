@@ -1,7 +1,11 @@
 import json
+import logging
+
 import confluent_kafka as kafka
 
 from eventcore import Consumer
+
+log = logging.getLogger(__name__)
 
 
 class KafkaConsumer(Consumer):
@@ -24,9 +28,13 @@ class KafkaConsumer(Consumer):
             message = self.kafka_consumer.poll(1.0)
             if not message:
                 continue
-            if message.errors():
-                continue
-            message_body = json.loads(message.value())
+            try:
+                message_body = json.loads(message.value())
+            except TypeError:
+                message_body = json.loads(message.value().decode('utf-8'))
+            except:
+                log.error('@KafkaConsumer.consume Exception:',
+                          exc_info=True)
             self.process_event(name=message_body.get('event'),
                                subject=message.key(),
                                data=message_body.get('data'))
