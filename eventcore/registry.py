@@ -53,7 +53,6 @@ class Registry(object):
         Find the event class and registered methods.
         :param event_name: name of the event.
         """
-        # return cls._events.get(event_name, (None, []))
         return cls._events.get(event_name)
 
     @classmethod
