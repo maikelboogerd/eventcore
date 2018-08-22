@@ -3,7 +3,7 @@ import logging
 
 import confluent_kafka as kafka
 
-from eventcore import Consumer, KafkaError
+from eventcore import Consumer
 
 log = logging.getLogger(__name__)
 
@@ -30,13 +30,11 @@ class KafkaConsumer(Consumer):
                 continue
             if message.error():
                 # PARTITION_EOF error can be ignored.
-                if message.error().code() == KafkaError._PARTITION_EOF:
+                if message.error().code() == kafka.KafkaError._PARTITION_EOF:
                     continue
                 else:
-                    log.error(
-                        '@KafkaConsumer.consume Error: {}'.format(
-                            message.error()))
-                    break
+                    raise kafka.KafkaException(message.error())
+
             try:
                 message_body = json.loads(message.value())
             except TypeError:
@@ -47,5 +45,3 @@ class KafkaConsumer(Consumer):
             self.process_event(name=message_body.get('event'),
                                subject=message.key(),
                                data=message_body.get('data'))
-        # Make sure consumer connection is closed when breaking error.
-        self.kafka_consumer.close()
