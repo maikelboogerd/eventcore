@@ -34,9 +34,8 @@ class KafkaConsumer(Consumer):
                     continue
                 else:
                     log.error(
-                        '@KafkaConsumer.consume Exception: {}'.format(
-                            message.error()),
-                        exc_info=True)
+                        '@KafkaConsumer.consume Error: {}'.format(
+                            message.error()))
                     break
             try:
                 message_body = json.loads(message.value())
