@@ -21,9 +21,14 @@ class Registry(object):
         """
         log.info('@Registry.register_event `{}` with subscriber `{}`'
                  .format(event_name, method.__name__))
+
         if event_name not in cls._events:
-            cls._events[event_name] = (event, [])
-        cls._events[event_name][1].append(method)
+            cls._events[event_name] = {}
+
+        if event not in cls._events[event_name]:
+            cls._events[event_name][event] = []
+
+        cls._events[event_name][event].append(method)
 
     @classmethod
     def register_producer(cls, producer):
@@ -48,7 +53,7 @@ class Registry(object):
         Find the event class and registered methods.
         :param event_name: name of the event.
         """
-        return cls._events.get(event_name, (None, []))
+        return cls._events.get(event_name)
 
     @classmethod
     def get_producer(cls):
