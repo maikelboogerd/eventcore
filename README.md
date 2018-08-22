@@ -91,11 +91,11 @@ consumer.thread()
 
 ### Usage with SQS:
 
+> Installing this library will also install `boto3`
+
 ```
 $ pip install eventcore-sqs
 ```
-
-> Installing this library will also install `boto3`
 
 ```python
 from eventcore_sqs import SQSProducer
