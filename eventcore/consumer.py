@@ -29,20 +29,21 @@ class Consumer(metaclass=abc.ABCMeta): # noqa
         :param subject:
         :param data:
         """
-        event, methods = Registry.get_event(name)
-        if not (event and methods):
+        method_mapping = Registry.get_event(name)
+        if not method_mapping:
             log.warning('@{}.process_event no subscriber for event `{}`'
                         .format(self.__class__.__name__, name))
             return
-        event_instance = event(subject, data)
-        log.info('@{}.process_event `{}` for subject `{}`'.format(
-            self.__class__.__name__,
-            event_instance.__class__.__name__,
-            subject
-        ))
-        for method in methods:
-            log.info('>> Calling subscriber `{}`'.format(method.__name__))
-            method(event_instance)
+        for event, methods in method_mapping.items():
+            event_instance = event(subject, data)
+            log.info('@{}.process_event `{}` for subject `{}`'.format(
+                self.__class__.__name__,
+                event_instance.__class__.__name__,
+                subject
+            ))
+            for method in methods:
+                log.info('>> Calling subscriber `{}`'.format(method.__name__))
+                method(event_instance)
 
     def thread(self):
         """
