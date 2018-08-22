@@ -24,7 +24,13 @@ def dispatch_event(event, subject='id'):
     def wrapper(method):
         def inner_wrapper(*args, **kwargs):
             resource = method(*args, **kwargs)
-            event(getattr(resource, subject), {}).dispatch()
+            if isinstance(resource, dict):
+                subject_ = resource.get(subject)
+                data = resource
+            else:
+                subject_ = getattr(resource, subject)
+                data = resource.__dict__
+            event(subject_, data).dispatch()
             return resource
         return inner_wrapper
     return wrapper
