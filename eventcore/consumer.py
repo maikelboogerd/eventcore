@@ -22,6 +22,13 @@ class Consumer(metaclass=abc.ABCMeta): # noqa
         """
         pass
 
+    def set_context_manager(self, context_manager):
+        """
+        Wrap a context manager around subscriber execution.
+        :param context_manager: object that implements __enter__ and __exit__
+        """
+        self._context_manager = context_manager
+
     def process_event(self, name, subject, data):
         """
         Process a single event.
@@ -42,8 +49,10 @@ class Consumer(metaclass=abc.ABCMeta): # noqa
                 subject
             ))
             for method in methods:
-                log.info('>> Calling subscriber `{}`'.format(method.__name__))
-                method(event_instance)
+                with self._context_manager:
+                    log.info('>> Calling subscriber `{}`'
+                             .format(method.__name__))
+                    method(event_instance)
 
     def thread(self):
         """
