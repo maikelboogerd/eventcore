@@ -49,6 +49,11 @@ class KafkaConsumer(Consumer):
             except:
                 log.error('@KafkaConsumer.consume Exception:',
                           exc_info=True)
+            try:
+                subject = message.key().decode('utf-8')
+            except AttributeError:
+                subject = message.key()
+
             self.process_event(name=message_body.get('event'),
-                               subject=message.key(),
+                               subject=subject,
                                data=message_body.get('data'))
