@@ -17,10 +17,17 @@ class KafkaConsumer(Consumer):
     """
 
     def __init__(self, servers, group_id, topics):
+        # Parse the servers to ensure it's a comma-separated string.
+        if isinstance(servers, list):
+            servers = ','.join(servers)
         self.kafka_consumer = kafka.Consumer({
             'bootstrap.servers': servers,
             'group.id': group_id
         })
+        # Parse the topics to ensure it's a list.
+        if isinstance(topics, str):
+            topics = topics.split(',')
+
         self.kafka_consumer.subscribe(topics)
 
     def consume(self):

@@ -11,15 +11,18 @@ class KafkaProducer(Producer):
     """
 
     def __init__(self, servers):
+        # Parse the servers to ensure it's a comma-separated string.
+        if isinstance(servers, list):
+            servers = ','.join(servers)
         self.kafka_producer = kafka.Producer({
             'bootstrap.servers': servers
         })
 
     def produce(self, topic, event, subject, data):
-        message_body = {
+        message_body = json.dumps({
             'event': event,
             'data': data
-        }
+        })
         self.kafka_producer.produce(topic=topic,
                                     key=subject,
-                                    value=json.dumps(message_body))
+                                    value=message_body)
