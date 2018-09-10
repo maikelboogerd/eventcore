@@ -81,7 +81,7 @@ producer.register()
 ```
 
 ```python
-from eventcore_kafka import KafkaProducer
+from eventcore_kafka import KafkaConsumer
 
 consumer = KafkaConsumer(servers='localhost:9092',
                          group_id='user_service',
