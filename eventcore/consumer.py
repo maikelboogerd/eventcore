@@ -38,8 +38,8 @@ class Consumer(metaclass=abc.ABCMeta): # noqa
         """
         method_mapping = Registry.get_event(name)
         if not method_mapping:
-            log.warning('@{}.process_event no subscriber for event `{}`'
-                        .format(self.__class__.__name__, name))
+            log.info('@{}.process_event no subscriber for event `{}`'
+                     .format(self.__class__.__name__, name))
             return
         for event, methods in method_mapping.items():
             event_instance = event(subject, data)
