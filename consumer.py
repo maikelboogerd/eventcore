@@ -16,10 +16,11 @@ class KafkaConsumer(Consumer):
     :param topics: list of topics to consume from.
     """
 
-    def __init__(self, servers, group_id, topics):
+    def __init__(self, servers, group_id, topics, auto_commit=True):
         # Parse the servers to ensure it's a comma-separated string.
         if isinstance(servers, list):
             servers = ','.join(servers)
+        self.auto_commit = auto_commit
         self.kafka_consumer = kafka.Consumer({
             'bootstrap.servers': servers,
             'group.id': group_id
@@ -54,6 +55,9 @@ class KafkaConsumer(Consumer):
             except AttributeError:
                 subject = message.key()
 
+
             self.process_event(name=message_body.get('event'),
                                subject=subject,
                                data=message_body.get('data'))
+            if not auto_commit:
+                self.kafka_consumer.commit(message)
