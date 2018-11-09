@@ -1,2 +1,2 @@
-from .producer import KafkaProducer # noqa
-from .consumer import KafkaConsumer # noqa
+from .producer import KafkaProducer  # noqa
+from .consumer import KafkaConsumer, BlockingKafkaConsumer  # noqa
