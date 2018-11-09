@@ -4,6 +4,7 @@ import logging
 
 from contextlib import suppress
 
+from .exceptions import FatalConsumerError
 from .registry import Registry
 
 log = logging.getLogger(__name__)
@@ -69,6 +70,8 @@ def thread_wrapper(method):
         while True:
             try:
                 method()
+            except FatalConsumerError:
+                raise
             except BaseException as e:
                 log.error('@thread_wrapper restarting thread after Exception:',
                           exc_info=True)
