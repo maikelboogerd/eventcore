@@ -45,8 +45,7 @@ class KafkaConsumer(Consumer):
         self.process_event(
             name=message_body.get('event'),
             subject=subject,
-            data=message_body.get('data')
-        )
+            data=message_body.get('data'))
 
     @staticmethod
     def is_valid_message(message: Message):
@@ -78,6 +77,8 @@ class KafkaConsumer(Consumer):
 
 
 class BlockingKafkaConsumer(KafkaConsumer):
+    """Consumer for Kafka topics, blocks when a message cannot be processed."""
+
     def __init__(self, servers, group_id, topics, **kwargs):
         kwargs['enable.auto.commit'] = False
         kwargs['auto.offset.reset'] = "smallest"  # Start from first failed.
@@ -92,11 +93,9 @@ class BlockingKafkaConsumer(KafkaConsumer):
             self.process_event(
                 name=message_body.get('event'),
                 subject=subject,
-                data=message_body.get('data')
-            )
+                data=message_body.get('data'))
             self.kafka_consumer.commit(message)
         except BaseException:
             raise FatalConsumerError(
                 "Message with body {} could not be processed and blocks "
-                "the consumer. Manual action required.".format(message_body)
-            )
+                "the consumer. Manual action required.".format(message_body))
