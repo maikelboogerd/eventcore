@@ -17,3 +17,11 @@ class ConsumerError(Exception):
     Exception is thrown when consuming fails.
     """
     pass
+
+
+class FatalConsumerError(ConsumerError):
+    """
+    Exception is thrown when consuming fails and is irrecoverable.
+    """
+    pass
+
