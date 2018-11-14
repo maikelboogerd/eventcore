@@ -73,6 +73,10 @@ class KafkaConsumer(Consumer):
         except AttributeError:
             subject = message.key()
 
+        if message_body is None or not isinstance(message_body, dict):
+            raise ValueError("Message body is malformed: {}".format(
+                repr(message_body)))
+
         return subject, message_body
 
 
@@ -87,8 +91,13 @@ class BlockingKafkaConsumer(KafkaConsumer):
     def poll_and_process(self):
         message = self.kafka_consumer.poll()
         if not self.is_valid_message(message):
+            self.kafka_consumer.commit(message)
             return
-        subject, message_body = self.parse_message(message)
+        try:
+            subject, message_body = self.parse_message(message)
+        except (ValueError, AttributeError, TypeError):
+            self.kafka_consumer.commit(message)
+            return
         try:
             self.process_event(
                 name=message_body.get('event'),
