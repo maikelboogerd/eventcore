@@ -99,7 +99,7 @@ from eventcore.sqs import SQSProducer
 producer = SQSProducer(region_name='eu-west-1',
                        access_key_id='ACCESS_KEY_ID',
                        secret_access_key='SECRET_ACCESS_KEY',
-                       url='https://.../example.fifo')
+                       queue_url='https://.../example.fifo')
 producer.register()
 ```
 
@@ -109,6 +109,6 @@ from eventcore.sqs import SQSConsumer
 consumer = SQSConsumer(region_name='eu-west-1',
                        access_key_id='ACCESS_KEY_ID',
                        secret_access_key='SECRET_ACCESS_KEY',
-                       url='https://.../example.fifo')
+                       queue_url='https://.../example.fifo')
 consumer.thread()
 ```
