@@ -89,16 +89,12 @@ consumer = KafkaConsumer(servers='localhost:9092',
 consumer.thread()
 ```
 
-### Usage with SQS:
+### Usage for SQS:
 
-> Installing this library will also install `boto3`
-
-```
-$ pip install eventcore-sqs
-```
+> To use the eventcore.sqs submodule you need to run `pip install boto3`.
 
 ```python
-from eventcore_sqs import SQSProducer
+from eventcore.sqs import SQSProducer
 
 producer = SQSProducer(region_name='eu-west-1',
                        access_key_id='ACCESS_KEY_ID',
@@ -108,7 +104,7 @@ producer.register()
 ```
 
 ```python
-from eventcore_sqs import SQSConsumer
+from eventcore.sqs import SQSConsumer
 
 consumer = SQSConsumer(region_name='eu-west-1',
                        access_key_id='ACCESS_KEY_ID',
