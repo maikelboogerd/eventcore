@@ -2,12 +2,12 @@ import json
 import uuid
 
 from eventcore import Producer
+from eventcore.exceptions import MissingDependencyError
 
 
 class SQSProducer(Producer):
     """
     Produce to a SQS queue.
-    :param boto3:
     :param region_name:
     :param access_key_id:
     :param secret_access_key:
@@ -15,11 +15,16 @@ class SQSProducer(Producer):
     """
 
     def __init__(self,
-                 boto3,
                  region_name,
                  access_key_id,
                  secret_access_key,
                  queue_url):
+        try:
+            import boto3
+        except ImportError:
+            raise MissingDependencyError(
+                'Missing dependency run `pip install boto3`.')
+
         sqs = boto3.resource('sqs',
                              region_name=region_name,
                              aws_access_key_id=access_key_id,

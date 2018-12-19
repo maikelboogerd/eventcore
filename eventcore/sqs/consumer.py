@@ -2,6 +2,7 @@ import logging
 import json
 
 from eventcore import Consumer
+from eventcore.exceptions import MissingDependencyError
 
 LOGGER = logging.getLogger(__name__)
 
@@ -9,7 +10,6 @@ LOGGER = logging.getLogger(__name__)
 class SQSConsumer(Consumer):
     """
     Consume from a SQS queue.
-    :param boto3:
     :param region_name:
     :param access_key_id:
     :param secret_access_key:
@@ -17,11 +17,16 @@ class SQSConsumer(Consumer):
     """
 
     def __init__(self,
-                 boto3,
                  region_name,
                  access_key_id,
                  secret_access_key,
                  queue_url):
+        try:
+            import boto3
+        except ImportError:
+            raise MissingDependencyError(
+                'Missing dependency run `pip install boto3`.')
+
         sqs = boto3.resource('sqs',
                              region_name=region_name,
                              aws_access_key_id=access_key_id,
