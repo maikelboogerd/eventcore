@@ -1,6 +1,5 @@
 import json
 import logging
-from typing import Tuple
 
 import confluent_kafka as kafka
 from confluent_kafka.cimpl import Message
@@ -22,11 +21,9 @@ class KafkaConsumer(Consumer):
         # Parse the servers to ensure it's a comma-separated string.
         if isinstance(servers, list):
             servers = ','.join(servers)
-        self.kafka_consumer = kafka.Consumer({
-            'bootstrap.servers': servers,
-            'group.id': group_id,
-            **kwargs
-        })
+        settings = {'bootstrap.servers': servers, 'group.id': group_id}
+        settings.update(kwargs)
+        self.kafka_consumer = kafka.Consumer(settings)
         # Parse the topics to ensure it's a list.
         if isinstance(topics, str):
             topics = topics.split(',')
@@ -60,7 +57,7 @@ class KafkaConsumer(Consumer):
         return True
 
     @staticmethod
-    def parse_message(message: Message) -> Tuple[str, dict]:
+    def parse_message(message: Message) -> (str, dict):
         subject, message_body = None, None
         try:
             message_body = json.loads(message.value())
