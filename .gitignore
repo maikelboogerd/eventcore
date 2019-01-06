@@ -100,3 +100,5 @@ ENV/
 
 # trash
 .DS_store
+test.py
+.vscode/settings.json
