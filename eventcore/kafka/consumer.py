@@ -50,6 +50,10 @@ class KafkaConsumer(Consumer):
 
     @staticmethod
     def is_valid_message(message) -> bool:
+        """
+        Check if the message does not have an error code.
+        :param message: a `confluent_kafka.cimpl.Message` instance.
+        """
         if not message:
             return False
         if message.error():
