@@ -78,7 +78,12 @@ class KafkaConsumer(Consumer):
 
 
 class BlockingKafkaConsumer(KafkaConsumer):
-    """Consumer for Kafka topics, blocks when a message cannot be processed."""
+    """
+    Consumer from Kafka topics, blocks when a message cannot be processed.
+    :param servers: list of brokers to consume from.
+    :param group_id: identifier for this consumer.
+    :param topics: list of topics to consume from.
+    """
 
     def __init__(self, servers, group_id, topics, **kwargs):
         kwargs['enable.auto.commit'] = False
