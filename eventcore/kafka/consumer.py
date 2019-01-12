@@ -18,7 +18,6 @@ class KafkaConsumer(Consumer):
     def __init__(self, servers, group_id, topics, **kwargs):
         try:
             import confluent_kafka as kafka
-            from confluent_kafka.cimpl import Message
         except ImportError:
             raise MissingDependencyError(
                 'Missing dependency run `pip install confluent-kafka`.')
@@ -50,7 +49,7 @@ class KafkaConsumer(Consumer):
             data=message_body.get('data'))
 
     @staticmethod
-    def is_valid_message(message: Message):
+    def is_valid_message(message) -> bool:
         if not message:
             return False
         if message.error():
@@ -62,7 +61,7 @@ class KafkaConsumer(Consumer):
         return True
 
     @staticmethod
-    def parse_message(message: Message) -> (str, dict):
+    def parse_message(message) -> (str, dict):
         subject, message_body = None, None
         try:
             message_body = json.loads(message.value())
