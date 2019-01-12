@@ -66,6 +66,10 @@ class KafkaConsumer(Consumer):
 
     @staticmethod
     def parse_message(message) -> (str, dict):
+        """
+        Parse a message to retrieve the subject and message body.
+        :param message: a `confluent_kafka.cimpl.Message` instance.
+        """
         subject, message_body = None, None
         try:
             message_body = json.loads(message.value())
