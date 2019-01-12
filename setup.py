@@ -11,7 +11,9 @@ setuptools.setup(
     keywords=['event', 'queue', 'producer', 'consumer', 'dispatch', 'kafka'],
     packages=['eventcore'],
     install_requires=[],
-    extras_require=[],
+    extras_require={
+        'kafka': ['confluent-kafka']
+    },
     license='MIT',
     zip_safe=False
 )
