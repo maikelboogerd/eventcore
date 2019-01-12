@@ -1,25 +1,27 @@
 import json
-import confluent_kafka as kafka
-from eventcore_kafka.header import Header
 
 from eventcore import Producer
+from eventcore.exceptions import MissingDependencyError
+from eventcore.kafka.header import Header
 
 
 class KafkaProducer(Producer):
     """
     Produce to a Kafka queue.
     :param servers: list of brokers to consume from.
+    :param servers: The host and port of where Kafka runs.
+    :param source: The source of the application which is producing the
+    messages.
     """
 
     source = ''
 
     def __init__(self, servers, source=None):
-        """
-        Initialize the producer for Kafka
-        :param servers: The host and port of where Kafka runs.
-        :param source: The source of the application which is producing the
-        messages.
-        """
+        try:
+            import confluent_kafka as kafka
+        except ImportError:
+            raise MissingDependencyError(
+                'Missing dependency run `pip install confluent-kafka`.')
 
         self.source = source
 
