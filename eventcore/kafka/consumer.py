@@ -1,10 +1,8 @@
 import json
 import logging
 
-import confluent_kafka as kafka
-from confluent_kafka.cimpl import Message
 from eventcore import Consumer
-from eventcore.exceptions import FatalConsumerError
+from eventcore.exceptions import MissingDependencyError, FatalConsumerError
 
 log = logging.getLogger(__name__)
 
@@ -18,6 +16,13 @@ class KafkaConsumer(Consumer):
     """
 
     def __init__(self, servers, group_id, topics, **kwargs):
+        try:
+            import confluent_kafka as kafka
+            from confluent_kafka.cimpl import Message
+        except ImportError:
+            raise MissingDependencyError(
+                'Missing dependency run `pip install confluent-kafka`.')
+
         # Parse the servers to ensure it's a comma-separated string.
         if isinstance(servers, list):
             servers = ','.join(servers)
