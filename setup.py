@@ -11,6 +11,9 @@ setuptools.setup(
     keywords=['events', 'queue', 'producer', 'consumer', 'dispatch', 'sqs'],
     packages=['eventcore'],
     install_requires=[],
+    extras_require={
+        'sqs': ['boto3']
+    },
     license='MIT',
     zip_safe=False
 )
