@@ -18,6 +18,7 @@ class KafkaConsumer(Consumer):
     def __init__(self, servers, group_id, topics, **kwargs):
         try:
             import confluent_kafka as kafka
+            self.kafka = kafka
         except ImportError:
             raise MissingDependencyError(
                 'Missing dependency run `pip install confluent-kafka`.')
@@ -27,7 +28,7 @@ class KafkaConsumer(Consumer):
             servers = ','.join(servers)
         settings = {'bootstrap.servers': servers, 'group.id': group_id}
         settings.update(kwargs)
-        self.kafka_consumer = kafka.Consumer(settings)
+        self.kafka_consumer = self.kafka.Consumer(settings)
         # Parse the topics to ensure it's a list.
         if isinstance(topics, str):
             topics = topics.split(',')
@@ -48,8 +49,7 @@ class KafkaConsumer(Consumer):
             subject=subject,
             data=message_body.get('data'))
 
-    @staticmethod
-    def is_valid_message(message) -> bool:
+    def is_valid_message(self, message) -> bool:
         """
         Check if the message does not have an error code.
         :param message: a `confluent_kafka.cimpl.Message` instance.
@@ -58,15 +58,14 @@ class KafkaConsumer(Consumer):
             return False
         if message.error():
             # PARTITION_EOF error can be ignored.
-            if message.error().code() == kafka.KafkaError._PARTITION_EOF:
+            if message.error().code() == self.kafka.KafkaError._PARTITION_EOF:
                 return False
             else:
                 # TODO: Fix dependency.
-                raise kafka.KafkaException(message.error())
+                raise self.kafka.KafkaException(message.error())
         return True
 
-    @staticmethod
-    def parse_message(message) -> (str, dict):
+    def parse_message(self, message) -> (str, dict):
         """
         Parse a message to retrieve the subject and message body.
         :param message: a `confluent_kafka.cimpl.Message` instance.
