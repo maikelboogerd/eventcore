@@ -67,21 +67,23 @@ consumer.thread()
 
 ### Usage with Kafka:
 
-> Installing this library will also install `confluent-kafka`
+To use the eventcore.kafka feature, please run `pip install eventcore[kafka]`.
+
+> This will install the required version of `confluent-kafka`.
 
 ```
 $ pip install eventcore-kafka
 ```
 
 ```python
-from eventcore_kafka import KafkaProducer
+from eventcore.kafka import KafkaProducer
 
 producer = KafkaProducer(servers='localhost:9092')
 producer.register()
 ```
 
 ```python
-from eventcore_kafka import KafkaConsumer
+from eventcore.kafka import KafkaConsumer
 
 consumer = KafkaConsumer(servers='localhost:9092',
                          group_id='user_service',
