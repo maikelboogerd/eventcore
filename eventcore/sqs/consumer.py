@@ -10,10 +10,10 @@ LOGGER = logging.getLogger(__name__)
 class SQSConsumer(Consumer):
     """
     Consume from a SQS queue.
-    :param region_name:
-    :param access_key_id:
-    :param secret_access_key:
-    :param queue_url:
+    :param region_name: the AWS region this queue is in.
+    :param access_key_id: your AWS Access Key ID.
+    :param secret_access_key: your AWS Secret Access Key.
+    :param queue_url: url endpoint for the queue.
     """
 
     def __init__(self,
@@ -34,8 +34,6 @@ class SQSConsumer(Consumer):
         self.queue = sqs.Queue(queue_url)
 
     def consume(self):
-        """
-        """
         while True:
             for message in self.queue.receive_messages(MaxNumberOfMessages=10):
                 try:
