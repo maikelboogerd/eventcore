@@ -19,7 +19,7 @@ def dispatch_event(event, subject='id'):
     """
     Dispatch an event when the decorated method is called.
     :param event: the event class to instantiate and dispatch.
-    :param subject_property: the property name to get the subject.
+    :param subject: the property name to get the subject.
     """
     def wrapper(method):
         def inner_wrapper(*args, **kwargs):
