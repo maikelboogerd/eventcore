@@ -91,7 +91,9 @@ consumer.thread()
 
 ### Usage for SQS:
 
-> To use the eventcore.sqs submodule you need to run `pip install boto3`.
+To use the eventcore.sqs feature, please run `pip install eventcore[kafka]`.
+
+> This will install the required version of `boto3`.
 
 ```python
 from eventcore.sqs import SQSProducer
