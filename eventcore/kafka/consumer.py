@@ -61,6 +61,7 @@ class KafkaConsumer(Consumer):
             if message.error().code() == kafka.KafkaError._PARTITION_EOF:
                 return False
             else:
+                # TODO: Fix dependency.
                 raise kafka.KafkaException(message.error())
         return True
 
