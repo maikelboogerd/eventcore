@@ -8,10 +8,23 @@ setuptools.setup(
     author='Maikel van den Boogerd',
     author_email='maikelboogerd@gmail.com',
     url='https://github.com/maikelboogerd/eventcore',
-    keywords=['event', 'queue', 'producer', 'consumer', 'dispatch', 'kafka'],
-    packages=['eventcore'],
+    keywords=[
+        'events',
+        'queue',
+        'producer',
+        'consumer',
+        'dispatch',
+        'sqs',
+        'kafka'
+    ],
+    packages=[
+        'eventcore',
+        'eventcore.sqs',
+        'eventcore.kafka'
+    ],
     install_requires=[],
     extras_require={
+        'sqs': ['boto3==1.9.*'],
         'kafka': ['confluent-kafka']
     },
     license='MIT',

@@ -43,7 +43,7 @@ class DummyProducer(Producer):
 class DummyConsumer(Consumer):
     def consume(self):
         while True:
-            time.sleep(10)
+            time.sleep(1)
             for message in DummyQueue.read():
                 try:
                     self.process_event(name=message.event,
@@ -54,10 +54,3 @@ class DummyConsumer(Consumer):
                     log.error('@DummyConsumer.consume Exception:',
                               exc_info=True)
                     continue
-
-
-def includeme(config):
-    producer = DummyProducer()
-    producer.register()
-    consumer = DummyConsumer()
-    consumer.consume()
