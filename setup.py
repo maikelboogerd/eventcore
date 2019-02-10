@@ -8,9 +8,15 @@ setuptools.setup(
     author='Maikel van den Boogerd',
     author_email='maikelboogerd@gmail.com',
     url='https://github.com/maikelboogerd/eventcore',
-    keywords=['event', 'queue', 'producer', 'consumer', 'dispatch'],
-    packages=['eventcore'],
+    keywords=['events', 'queue', 'producer', 'consumer', 'dispatch', 'sqs'],
+    packages=[
+        'eventcore',
+        'eventcore.sqs'
+    ],
     install_requires=[],
+    extras_require={
+        'sqs': ['boto3==1.9.*']
+    },
     license='MIT',
     zip_safe=False
 )

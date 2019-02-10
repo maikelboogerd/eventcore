@@ -25,3 +25,9 @@ class FatalConsumerError(ConsumerError):
     """
     pass
 
+
+class MissingDependencyError(ImportError):
+    """
+    Exception is thrown when a dependency library is missing.
+    """
+    pass
