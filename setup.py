@@ -12,7 +12,7 @@ setuptools.setup(
     packages=['eventcore'],
     install_requires=[],
     extras_require={
-        'sqs': ['boto3']
+        'sqs': ['boto3==1.9.*']
     },
     license='MIT',
     zip_safe=False
