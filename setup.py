@@ -17,7 +17,7 @@ setuptools.setup(
     install_requires=[],
     extras_require={
         'sqs': ['boto3==1.9.*'],
-        'kafka': ['confluent-kafka']
+        'kafka': ['confluent-kafka==0.11.*']
     },
     license='MIT',
     zip_safe=False
