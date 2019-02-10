@@ -8,10 +8,10 @@ from eventcore.exceptions import MissingDependencyError
 class SQSProducer(Producer):
     """
     Produce to a SQS queue.
-    :param region_name:
-    :param access_key_id:
-    :param secret_access_key:
-    :param queue_url:
+    :param region_name: the AWS region this queue is in.
+    :param access_key_id: your AWS Access Key ID.
+    :param secret_access_key: your AWS Secret Access Key.
+    :param queue_url: url endpoint for the queue.
     """
 
     def __init__(self,
@@ -33,6 +33,11 @@ class SQSProducer(Producer):
 
     def produce(self, topic, event, subject, data):
         """
+        Send a message to the queue.
+        :param topic: the topic the message is for.
+        :param event: name of the event.
+        :param subject: identifier for resource.
+        :param data: dictionary with information for this event.
         """
         message_body = {
             'event': event,
