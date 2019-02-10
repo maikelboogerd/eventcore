@@ -8,15 +8,7 @@ setuptools.setup(
     author='Maikel van den Boogerd',
     author_email='maikelboogerd@gmail.com',
     url='https://github.com/maikelboogerd/eventcore',
-    keywords=[
-        'events',
-        'queue',
-        'producer',
-        'consumer',
-        'dispatch',
-        'sqs',
-        'kafka'
-    ],
+    keywords=['events', 'sqs', 'kafka'],
     packages=[
         'eventcore',
         'eventcore.sqs',
