@@ -9,3 +9,10 @@ install:
   - pip install .[testing]
 
 script: pytest -vs
+
+deploy:
+  provider: pypi
+  user: myuser
+  password: mypassword
+  on:
+    branch: master
