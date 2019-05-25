@@ -71,10 +71,6 @@ To use the eventcore.kafka feature, please run `pip install eventcore[kafka]`.
 
 > This will install the required version of `confluent-kafka`.
 
-```
-$ pip install eventcore-kafka
-```
-
 ```python
 from eventcore.kafka import KafkaProducer
 
@@ -86,7 +82,7 @@ producer.register()
 from eventcore.kafka import KafkaConsumer
 
 consumer = KafkaConsumer(servers='localhost:9092',
-                         group_id='user_service',
+                         group_id='UserService',
                          topics='user')
 consumer.thread()
 ```
