@@ -31,3 +31,10 @@ class MissingDependencyError(ImportError):
     Exception is thrown when a dependency library is missing.
     """
     pass
+
+
+class EventContractError(Exception):
+    """
+    Exception is thrown when event input data doesn't match the event contract.
+    """
+    pass

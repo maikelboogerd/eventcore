@@ -1,7 +1,7 @@
 import abc
 import logging
 
-from .exceptions import MissingProducerError
+from .exceptions import EventContractError, MissingProducerError
 from .registry import Registry
 
 log = logging.getLogger(__name__)
@@ -13,11 +13,25 @@ class Event(metaclass=abc.ABCMeta): # noqa
     :param subject: identifier for resource.
     :param data: dictionary with context for this event.
     """
+
     topic = None
     name = None
 
+    contract = None
+
     def __init__(self, subject, data={}):
         self.subject = subject
+        if self.contract:
+            missing = list(set(self.contract) - set(data.keys()))
+            unknown = list(set(data.keys()) - set(self.contract))
+            if missing:
+                raise EventContractError(
+                    'Contract mismatch: data is missing properties {}'
+                    .format(missing))
+            if unknown:
+                raise EventContractError(
+                    'Contract mismatch: data has unknown properties {}'
+                    .format(unknown))
         self.data = data
 
     def dispatch(self, producer=None):
