@@ -18,7 +18,7 @@ setuptools.setup(
     packages=[
         'eventcore',
         'eventcore.sqs',
-        'eventcore.kafka'
+        'eventcore.kafka',
     ],
     install_requires=[],
     extras_require={
