@@ -12,7 +12,7 @@ script: pytest -vs
 
 deploy:
   provider: pypi
-  user: myuser
-  password: mypassword
+  user: $PYPI_USER
+  password: $PYPI_PASSWORD
   on:
     branch: master
