@@ -43,7 +43,7 @@ class DummyProducer(Producer):
 class DummyConsumer(Consumer):
     def consume(self):
         while True:
-            time.sleep(1)
+            self.sleep()
             for message in DummyQueue.read():
                 try:
                     self.process_event(name=message.event,

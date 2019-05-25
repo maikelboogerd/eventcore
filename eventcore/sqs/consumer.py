@@ -35,6 +35,7 @@ class SQSConsumer(Consumer):
 
     def consume(self):
         while True:
+            self.sleep()
             for message in self.queue.receive_messages(MaxNumberOfMessages=10):
                 try:
                     message_body = json.loads(message.body)
