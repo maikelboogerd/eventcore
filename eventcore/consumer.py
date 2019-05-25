@@ -1,6 +1,7 @@
 import abc
 import threading
 import logging
+import time
 
 from contextlib import suppress
 
@@ -15,6 +16,7 @@ class Consumer(metaclass=abc.ABCMeta): # noqa
     Consumer base to read messages from any queue.
     """
     _context_manager = suppress()
+    _interval = 0.5
 
     @abc.abstractmethod
     def consume(self):
@@ -54,6 +56,12 @@ class Consumer(metaclass=abc.ABCMeta): # noqa
                     log.info('>> Calling subscriber `{}`'
                              .format(method.__name__))
                     method(event_instance)
+
+    def sleep(self):
+        """
+        Sleep for the defined interval.
+        """
+        time.sleep(self._interval)
 
     def thread(self):
         """
