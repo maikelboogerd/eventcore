@@ -36,3 +36,10 @@ class Event(metaclass=abc.ABCMeta): # noqa
             fallback = Registry.get_fallback()
             fallback(self)
             raise
+
+    @classmethod
+    def get_topics(cls):
+        """
+        List all existing topics by checking the subclasses.
+        """
+        return [event.topic for event in cls.__subclasses__()]
