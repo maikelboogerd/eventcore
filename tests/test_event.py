@@ -15,7 +15,12 @@ class TestEvent(unittest.TestCase):
         """
         pass
 
-    def test_subject(self):
+    def test_dispatch(self):
+        """
+        """
+        pass
+
+    def test_get_topics(self):
         """
         """
         pass
