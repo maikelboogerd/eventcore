@@ -12,9 +12,9 @@ This project is hosted on PyPI and can be installed with pip:
 $ pip install eventcore
 ```
 
-This only includes a `DummyProducer` and `DummyConsumer`, which can be used for testing or development environments.
+The default installation includes a `DummyProducer` and `DummyConsumer` that can be used for testing or development environments.
 
-**For production environments you should use either [Kafka](#feature-kafka) or [SQS](#feature-sqs) included in this library.**
+**For production systems you should use either [Kafka](#feature---kafka) or [SQS](#feature---sqs) included in this library.**
 
 ## Usage
 
