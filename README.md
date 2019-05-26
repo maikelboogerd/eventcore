@@ -12,68 +12,129 @@ This project is hosted on PyPI and can be installed with pip:
 $ pip install eventcore
 ```
 
-This only includes a (local) dummy queue, which can be used for testing or development environments. In the usage section some examples are shown on how to use this library with Kafka or SQS, which are more suited for production systems.
+The default installation includes a `DummyProducer` and `DummyConsumer` that can be used for testing or development environments. These dummy objects store everything in local memory, meaning the events are lost whenever the main process ends or restarts.
+
+**For production systems you should use either [Kafka](#feature---kafka) or [SQS](#feature---sqs) included in this library.**
 
 ## Usage
 
-### Produce events:
+### Configure a Producer
+
+Before you can dispatch events you need to register a default producer, this could be changed depending on the type of queue you want to use. The producer implements a persistence mechanism that is used whenever `dispatch()` gets called.
 
 ```python
-from eventcore import Event, DummyProducer, dispatch_event
+from eventcore.dummy import DummyProducer
 
-# Implemented `Event` for the creation of a user.
-class UserCreated(Event):
-    topic = 'User'
-    name = 'UserCreated'
-
-# Create a `DummyProducer` and register as the default producer.
 producer = DummyProducer()
 producer.register()
-
-# Create a `UserCreated` object with a subject and data.
-# The event is dispatched using the default producer when calling `dispatch`.
-UserCreated('cfce9306-3b33-4cb2-a51f-9dc4879cc7a2', {}).dispatch()
-
-@dispatch_event(UserCreated)
-def create_user(params):
-    # Each time this method is called, the `UserCreated` event is created and
-    # dispatched using the resource this method returns as context.
-    # The returned object has the subject extracted from it, which uses `id`
-    # property as default. This can be overwritten with the subject param on
-    # the `dispatch_event` decorator.
-    user = User(**params)
-    return user
 ```
 
-### Consume events:
+### Configure a Consumer
+
+In order to retrieve events you'll need to create and run a consumer instance. The consumer will stay active in a separate thread to keep listening for new events by calling `thread()` on it.
 
 ```python
-from eventcore import Event, DummyConsumer, event_subscriber
+from eventcore.dummy import DummyConsumer
 
-# Implemented `Event` for the creation of a user.
-class UserCreated(Event):
-    topic = 'User'
-    name = 'UserCreated'
-
-@event_subscriber(UserCreated)
-def send_activation(event):
-    # This method is executed whenever the consumer return the `UserCreated`
-    # event from the queue. You can register multiple methods as subscriber
-    # by using the `event_subscriber` decorator like this example shows.
-    pass
-
-# Start consuming and processing the queue.
 consumer = DummyConsumer()
 consumer.thread()
 ```
 
-### Usage with Kafka:
+### Events
 
-> Installing this library will also install `confluent-kafka`
+Create your own events using `Event` as base class. These custom events must set the properties topic and name as is shown in the example.
+
+```python
+from eventcore import Event
+
+class UserCreated(Event):
+    topic = 'User'
+    name = 'UserCreated'
+```
+
+### Dispatching
+
+Events can be instantiated and dispatched on the fly. Doing so requires you to pass the subject and data arguments. Call `dispatch()` on the event to have your default producer store it.
+
+```python
+event = UserCreated(subject='cfce9306-3b33-4cb2-a51f-9dc4879cc7a2'
+                    data={'name': 'John Doe'})
+event.dispatch()
+```
+
+Alternatively, you can dispatch events whenever a method is called by using the `dispatch_event` decorator. This uses the return value of the decorated method to build the event instance. When the return value is a non-dictionary object, it uses it's `__dict__` property to populate event data.
+
+```python
+from eventcore import dispatch_event
+
+@dispatch_event(UserCreated, subject='id')
+def create_user():
+    user = User(name='John Doe')
+    return user
+```
+
+### Subscribers
+
+Whenever your consumer retrieves new events it will execute all subscriber methods registered for it, passing the event instance as the only argument.
+
+```python
+from eventcore import event_subscriber
+
+@event_subscriber(UserCreated)
+def send_activation(event):
+    pass
+```
+
+## Utility
+
+### Context managers
+
+Add a context manager that wraps around the execution of each `event_subscriber`. This could be used to manage database transactions.
+
+```python
+import transaction
+from eventcore.dummy import DummyConsumer
+
+consumer = DummyConsumer()
+consumer.set_context_manager(transaction.manager)
+consumer.thread()
+```
+
+### Alternative producers
+
+You can bypass the default producer by passing a alternative one to the `dispatch()` method. This could allow you to use e.g. Kafa as a default, while still sending some specific events to SQS.
+
+```
+from eventcore.dummy import DummyProducer
+
+alternative_producer = DummyProducer()
+event.dispatch(alternative_producer)
+```
+
+### Fallback method
+
+You can add a fallback method to your producer. This method is executed whenever an uncaught exception occurs, passing in the event instance that it failed on as the only argument.
+
+```python
+from eventcore.dummy import DummyProducer
+
+def report_error(event):
+    pass
+
+producer = DummyProducer()
+producer.set_fallback(report_error)
+producer.register()
+```
+
+## Feature - Kafka
+
+Installation is **only required** if you want to use the `eventcore_kafka` package. This install includes the library `confluent-kafka==0.11.*`
 
 ```
 $ pip install eventcore-kafka
 ```
+
+The below examples show the different configuration needed for the producer and consumer when using Kafka.
 
 ```python
 from eventcore_kafka import KafkaProducer
@@ -86,16 +147,20 @@ producer.register()
 from eventcore_kafka import KafkaConsumer
 
 consumer = KafkaConsumer(servers='localhost:9092',
-                         group_id='user_service',
+                         group_id='UserService',
                          topics='user')
 consumer.thread()
 ```
 
-### Usage for SQS:
+## Feature - SQS
 
-To use the eventcore.sqs feature, please run `pip install eventcore[sqs]`.
+Installation is **only required** if you want to use the `eventcore.sqs` package. This install includes the library `boto3==1.9.*`
 
-> This will install the required version of `boto3`.
+```
+$ pip install eventcore[sqs]
+```
+
+The below examples show the different configuration needed for your producer and consumer when using SQS.
 
 ```python
 from eventcore.sqs import SQSProducer
