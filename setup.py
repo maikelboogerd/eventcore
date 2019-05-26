@@ -17,7 +17,8 @@ setuptools.setup(
     keywords=['events', 'queue', 'producer', 'consumer', 'dispatch', 'sqs'],
     packages=[
         'eventcore',
-        'eventcore.sqs'
+        'eventcore.dummy',
+        'eventcore.sqs',
     ],
     install_requires=[],
     extras_require={
