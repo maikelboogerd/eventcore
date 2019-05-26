@@ -23,5 +23,8 @@ class Producer(metaclass=abc.ABCMeta): # noqa
 
     def set_fallback(self, method):
         """
+        Add a fallback method to the registry, used to recover or report after
+        failing to store an event.
+        :param method: the fallback method to register.
         """
         Registry.register_fallback(method)

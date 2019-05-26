@@ -37,7 +37,7 @@ class DummyMessage(object):
     :param topic: the topic the message is for.
     :param event: name of the event.
     :param subject: identifier for resource.
-    :param data: dictionary with information for this event.
+    :param data: dictionary with context for this event.
     """
 
     def __init__(self, topic, event, subject, data):
