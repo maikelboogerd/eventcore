@@ -1,6 +1,6 @@
 import unittest
 
-from eventcore import DummyConsumer
+from eventcore.dummy import DummyConsumer
 
 
 class TestConsumer(unittest.TestCase):
@@ -14,13 +14,9 @@ class TestConsumer(unittest.TestCase):
         """
         self.consumer = DummyConsumer()
 
-    def tearDown(self):
-        """
-        """
-        pass
-
     def test_set_context_manager(self):
         """
+        Check if the context manager is saved on the consumer.
         """
         self.consumer.set_context_manager(self.A_CONTEXT_MANAGER)
         self.assertEqual(self.consumer._context_manager,
