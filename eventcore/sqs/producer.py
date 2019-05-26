@@ -33,7 +33,7 @@ class SQSProducer(Producer):
 
     def produce(self, topic, event, subject, data):
         """
-        Send a message to the queue.
+        Send a message to the `sqs.Queue`.
         :param topic: the topic the message is for.
         :param event: name of the event.
         :param subject: identifier for resource.
