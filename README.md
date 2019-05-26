@@ -67,6 +67,16 @@ consumer = DummyConsumer()
 consumer.thread()
 ```
 
+### Utility:
+
+Setup a context manager that wraps around the execution of each event_subscriber. This could be used to manage database transactions.
+
+```python
+import transaction
+consumer = DummyConsumer()
+consumer.set_context_manager(transaction.manager)
+```
+
 ### Usage with Kafka:
 
 > Installing this library will also install `confluent-kafka`
