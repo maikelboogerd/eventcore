@@ -17,4 +17,4 @@ deploy:
   on:
     tags: true
     branch: master
-    condition: $TRAVIS_TAG =~ ^v[0-999].[0-999].[0-999]$
+    condition: $TRAVIS_TAG =~ ^v[0-999].[0-999].[0-999](rc[0-999])?$
