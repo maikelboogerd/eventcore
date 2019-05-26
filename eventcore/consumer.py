@@ -15,8 +15,9 @@ class Consumer(metaclass=abc.ABCMeta): # noqa
     """
     Consumer base to read messages from any queue.
     """
-    _context_manager = suppress()
+
     _interval = 0.5
+    _context_manager = suppress()
 
     @abc.abstractmethod
     def consume(self):
@@ -35,9 +36,9 @@ class Consumer(metaclass=abc.ABCMeta): # noqa
     def process_event(self, name, subject, data):
         """
         Process a single event.
-        :param name:
-        :param subject:
-        :param data:
+        :param event: name of the event.
+        :param subject: identifier for resource.
+        :param data: dictionary with context for this event.
         """
         method_mapping = Registry.get_event(name)
         if not method_mapping:
@@ -74,6 +75,11 @@ class Consumer(metaclass=abc.ABCMeta): # noqa
 
 
 def thread_wrapper(method):
+    """
+    Wrapper that recovers a thread after an exception, but breaks
+    when the `FatalConsumerError` is thrown.
+    :param method: the decorated method that takes no arguments.
+    """
     def wrapper():
         while True:
             try:

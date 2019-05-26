@@ -93,6 +93,7 @@ Add a context manager that wraps around the execution of each `event_subscriber`
 
 ```python
 import transaction
+from eventcore.dummy import DummyConsumer
 
 consumer = DummyConsumer()
 consumer.set_context_manager(transaction.manager)
@@ -110,11 +111,24 @@ alternative_producer = DummyProducer()
 event.dispatch(alternative_producer)
 ```
 
+### Fallback method
+
+You can add a fallback method to your producer. This method is executed whenever an uncaught exception occurs, passing in the event instance that it failed on as the only argument.
+
+```python
+from eventcore.dummy import DummyProducer
+
+def report_error(event):
+    pass
+
+producer = DummyProducer()
+producer.set_fallback(report_error)
+producer.register()
+```
+
 ## Feature - Kafka
 
-Installation is **only required** if you want to use the `eventcore_kafka` package.
-
-> This install includes the library `confluent-kafka`
+Installation is **only required** if you want to use the `eventcore_kafka` package. This install includes the library `confluent-kafka==0.11.*`
 
 ```
 $ pip install eventcore-kafka
@@ -133,16 +147,14 @@ producer.register()
 from eventcore_kafka import KafkaConsumer
 
 consumer = KafkaConsumer(servers='localhost:9092',
-                         group_id='user_service',
+                         group_id='UserService',
                          topics='user')
 consumer.thread()
 ```
 
 ## Feature - SQS
 
-Installation is **only required** if you want to use the `eventcore.sqs` package.
-
-> This install includes the library `boto3==1.9.*`
+Installation is **only required** if you want to use the `eventcore.sqs` package. This install includes the library `boto3==1.9.*`
 
 ```
 $ pip install eventcore[sqs]

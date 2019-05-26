@@ -44,6 +44,8 @@ class Registry(object):
     @classmethod
     def register_fallback(cls, method):
         """
+        Store a fallbackmethod on this class.
+        :param method: the method to store.
         """
         log.info('@Registry.register_fallback `{}`'.format(method.__name__))
         cls._fallback = method
@@ -66,5 +68,6 @@ class Registry(object):
     @classmethod
     def get_fallback(cls):
         """
+        Get the fallback method.
         """
         return cls._fallback or (lambda x: x)
