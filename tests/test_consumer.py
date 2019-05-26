@@ -1,21 +1,20 @@
 import unittest
 
+from eventcore import DummyConsumer
+
 
 class TestConsumer(unittest.TestCase):
     """
     """
 
+    A_CONTEXT_MANAGER = 'a-context-manager'
+
     def setUp(self):
         """
         """
-        pass
+        self.consumer = DummyConsumer()
 
     def tearDown(self):
-        """
-        """
-        pass
-
-    def test_consume(self):
         """
         """
         pass
@@ -23,19 +22,6 @@ class TestConsumer(unittest.TestCase):
     def test_set_context_manager(self):
         """
         """
-        pass
-
-    def test_process_event(self):
-        """
-        """
-        pass
-
-    def test_sleep(self):
-        """
-        """
-        pass
-
-    def test_thread(self):
-        """
-        """
-        pass
+        self.consumer.set_context_manager(self.A_CONTEXT_MANAGER)
+        self.assertEqual(self.consumer._context_manager,
+                         self.A_CONTEXT_MANAGER)
