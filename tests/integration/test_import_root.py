@@ -7,16 +7,6 @@ class TestImportRoot(unittest.TestCase):
     """
     """
 
-    def setUp(self):
-        """
-        """
-        pass
-
-    def tearDown(self):
-        """
-        """
-        pass
-
     def test_import_consumer(self):
         """
         Try to import the `eventcore.Consumer`.
