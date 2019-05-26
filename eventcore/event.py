@@ -42,4 +42,4 @@ class Event(metaclass=abc.ABCMeta): # noqa
         """
         List all existing topics by checking the subclasses.
         """
-        return [event.topic for event in cls.__subclasses__()]
+        return list(set([event.topic for event in cls.__subclasses__()]))
