@@ -12,27 +12,9 @@ This project is hosted on PyPI and can be installed with pip:
 $ pip install eventcore
 ```
 
-This only includes a (local) dummy queue, which can be used for testing or development environments. In the usage section some examples are shown on how to use this library with Kafka or SQS, which are more suited for production systems.
+This only includes a `DummyProducer` and `DummyConsumer`, which can be used for testing or development environments.
 
-### Install Kafka
-
-This step is **not required** unless you want to use the `eventcore_kafka` library.
-
-```
-$ pip install eventcore-kafka
-```
-
-> This install includes the library `confluent-kafka`
-
-### Install SQS
-
-This step is **not required** unless you want to use the `eventcore.sqs` package.
-
-```
-$ pip install eventcore[sqs]
-```
-
-> This install includes the library `boto3==1.9.*`
+**For production environments you should use either [Kafka](#feature-kafka) or [SQS](#feature-sqs) included in this library.**
 
 ## Usage
 
@@ -130,11 +112,17 @@ alternative_producer = DummyProducer()
 event.dispatch(alternative_producer)
 ```
 
-## Features
+## Feature - Kafka
 
-### Kafka
+Installation is **only required** if you want to use the `eventcore_kafka` package.
 
-See the [Install - Kafka](#install-kafka) section of this document to install the requirements before you can use this feature. The below examples show the different configuration needed for your producer and consumer.
+> This install includes the library `confluent-kafka`
+
+```
+$ pip install eventcore-kafka
+```
+
+The below examples show the different configuration needed for the producer and consumer when using Kafka.
 
 ```python
 from eventcore_kafka import KafkaProducer
@@ -152,9 +140,17 @@ consumer = KafkaConsumer(servers='localhost:9092',
 consumer.thread()
 ```
 
-### SQS
+## Feature - SQS
 
-See the [Install - SQS](#install-sqs) section of this document to install the requirements before you can use this feature. The below examples show the different configuration needed for your producer and consumer.
+Installation is **only required** if you want to use the `eventcore.sqs` package.
+
+> This install includes the library `boto3==1.9.*`
+
+```
+$ pip install eventcore[sqs]
+```
+
+The below examples show the different configuration needed for your producer and consumer when using SQS.
 
 ```python
 from eventcore.sqs import SQSProducer
