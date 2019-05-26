@@ -16,5 +16,5 @@ deploy:
   password: $PYPI_PASSWORD
   on:
     tags: true
-    condition: $TRAVIS_BRANCH == "master"
-    # branch: master
+    branch: master
+    condition: $TRAVIS_TAG =~ ^v[0-999].[0-999].[0-999]$
