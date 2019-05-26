@@ -34,6 +34,9 @@ class SQSConsumer(Consumer):
         self.queue = sqs.Queue(queue_url)
 
     def consume(self):
+        """
+        Retrieve message and trigger `process_event` on every message returned.
+        """
         while True:
             self.sleep()
             for message in self.queue.receive_messages(MaxNumberOfMessages=10):
