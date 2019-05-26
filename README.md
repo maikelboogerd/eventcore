@@ -93,6 +93,7 @@ Add a context manager that wraps around the execution of each `event_subscriber`
 
 ```python
 import transaction
+from eventcore.dummy import DummyConsumer
 
 consumer = DummyConsumer()
 consumer.set_context_manager(transaction.manager)
@@ -108,6 +109,21 @@ from eventcore.dummy import DummyProducer
 
 alternative_producer = DummyProducer()
 event.dispatch(alternative_producer)
+```
+
+### Fallback method
+
+You can add a fallback method to your consumer. This method is executed whenever an uncaught exception occurs, passing in the event instance that it failed on as the only argument.
+
+```python
+from eventcore.dummy import DummyConsumer
+
+def report_error(event):
+    pass
+
+consumer = DummyConsumer()
+consumer.set_fallback_method(report_error)
+consumer.thread()
 ```
 
 ## Feature - Kafka
