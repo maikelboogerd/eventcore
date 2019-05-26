@@ -16,6 +16,15 @@ class TestImportRoot(unittest.TestCase):
         except ImportError:
             self.fail('Cannot import `Consumer`')
 
+    def test_import_producer(self):
+        """
+        Try to import the `eventcore.Producer`.
+        """
+        try:
+            from eventcore import Producer
+        except ImportError:
+            self.fail('Cannot import `Producer`')
+
     def test_import_event_subscriber(self):
         """
         Try to import the `eventcore.event_subscriber`.
