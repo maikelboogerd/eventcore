@@ -38,8 +38,8 @@ class Event(metaclass=abc.ABCMeta): # noqa
             raise
 
     @classmethod
-    def get_topics(cls):
+    def discover_topics(cls):
         """
         List all existing topics by checking the subclasses.
         """
-        return [event.topic for event in cls.__subclasses__()]
+        return list(set([event.topic for event in cls.__subclasses__()]))

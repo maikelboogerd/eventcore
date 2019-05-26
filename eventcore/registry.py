@@ -7,6 +7,7 @@ class Registry(object):
     """
     A simple registry to save classes and objects on.
     """
+
     _events = {}
     _producer = None
     _fallback = None

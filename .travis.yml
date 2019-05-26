@@ -14,5 +14,7 @@ deploy:
   provider: pypi
   user: $PYPI_USER
   password: $PYPI_PASSWORD
+  skip_cleanup: true
   on:
-    branch: master
+    tags: true
+    condition: $TRAVIS_TAG =~ ^v[0-999].[0-999].[0-999](rc[0-999])?$

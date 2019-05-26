@@ -9,7 +9,7 @@ tests_require = [
 
 setuptools.setup(
     name='eventcore',
-    version='0.4.0',
+    version='0.4.0rc2',
     description='Produce and consume events with any queue.',
     author='Maikel van den Boogerd',
     author_email='maikelboogerd@gmail.com',
@@ -17,8 +17,9 @@ setuptools.setup(
     keywords=['events', 'sqs', 'kafka'],
     packages=[
         'eventcore',
-        'eventcore.sqs',
+        'eventcore.dummy',
         'eventcore.kafka',
+        'eventcore.sqs',
     ],
     install_requires=[],
     extras_require={

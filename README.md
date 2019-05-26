@@ -1,5 +1,7 @@
 # eventcore
 
+[![Build Status](https://travis-ci.com/maikelboogerd/eventcore.svg?branch=master)](https://travis-ci.com/maikelboogerd/eventcore)
+
 Produce and consume events with any queue.
 
 ## Installation
