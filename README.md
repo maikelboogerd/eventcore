@@ -12,7 +12,7 @@ This project is hosted on PyPI and can be installed with pip:
 $ pip install eventcore
 ```
 
-The default installation includes a `DummyProducer` and `DummyConsumer` that can be used for testing or development environments.
+The default installation includes a `DummyProducer` and `DummyConsumer` that can be used for testing or development environments. These dummy objects store everything in local memory, meaning the events are lost whenever the main process ends or restarts.
 
 **For production systems you should use either [Kafka](#feature---kafka) or [SQS](#feature---sqs) included in this library.**
 
@@ -28,8 +28,6 @@ from eventcore.dummy import DummyProducer
 producer = DummyProducer()
 producer.register()
 ```
-
-> The producer from this example stores your events in memory and is reset when the current process ends.
 
 ### Configure a Consumer
 
@@ -101,7 +99,7 @@ consumer.set_context_manager(transaction.manager)
 consumer.thread()
 ```
 
-### Multiple producers
+### Alternative producers
 
 You can bypass the default producer by passing a alternative one to the `dispatch()` method. This could allow you to use e.g. Kafa as a default, while still sending some specific events to SQS.
 
