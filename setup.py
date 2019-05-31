@@ -9,7 +9,7 @@ tests_require = [
 
 setuptools.setup(
     name='eventcore',
-    version='0.4.0rc4',
+    version='0.4.0rc5',
     description='Produce and consume events with any queue.',
     author='Maikel van den Boogerd',
     author_email='maikelboogerd@gmail.com',
